@@ -5,20 +5,21 @@ import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 import CheckButton from "../../components/CheckButton";
 
-type Material = {
+interface Material{
   productID: number;
   count: number;
 };
 
-type Product = {
+interface Product {
   name: string;
   id: number;
   imageURL: string;
   materials: Material[];
+  Quantity?: number;
 };
 
 interface ProductListingProps {
-  products: Product;
+  products: Product[];
 }
 
 function addQuantity(productArray: ProductListingProps[]) {
@@ -42,13 +43,13 @@ function mapArray(productArray: ProductListingProps[]) {
 }
 
 const ProductListing: FC<ProductListingProps> = ({ products }) => {
-  const [stateProducts, setStateProducts] = useState([]);
-  const [owned, setOwned] = useState(false);
-  const [notOwned, setNotOwned] = useState(false);
-  const [craftable, setCraftable] = useState(false);
-  const [ownedArray, setOwnedArray] = useState([]);
-  const [notOwnedArray, setNotOwnedArray] = useState([]);
-  const [craftableArray, setCraftableArray] = useState([]);
+  const [stateProducts, setStateProducts] = useState<Product[]>([]);
+  const [owned, setOwned] = useState<boolean>(false);
+  const [notOwned, setNotOwned] = useState<boolean>(false);
+  const [craftable, setCraftable] = useState<boolean>(false);
+  const [ownedArray, setOwnedArray] = useState<Product[]>([]);
+  const [notOwnedArray, setNotOwnedArray] = useState<Product[]>([]);
+  const [craftableArray, setCraftableArray] = useState<Product[]>([]);
 
   useEffect(() => {
     function filterByOwned() {

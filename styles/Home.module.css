@@ -44,6 +44,7 @@
 .Icons {
   width: 25px;
   height: 25px;
+  cursor: pointer;
 }
 
 .productDetails {
@@ -141,7 +142,7 @@
 
 .ProductsFilterContainer {
   display: grid;
-  justify-content: end;
+  justify-content: flex-end;
   padding: 0 0 0.5rem;
 }
 
@@ -191,13 +192,15 @@
 }
 
 .CraftButton {
-  place-self: flex-end;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
 }
 
 .CraftStatusButtonDiv {
   display: grid;
   align-items: flex-start;
-  justify-content: end;
+  justify-content: flex-end;
   width: -webkit-fill-available;
 }
 
@@ -243,8 +246,22 @@
 .MaterialContainer {
   display: flex;
   align-items: center;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
 }
 
 .ThumbnailDetails {
   width: -webkit-fill-available;
+}
+
+.ProductChecklistButton {
+  border: none;
+  padding: 8px 30px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #92dde0;
+  color: #ffffff;
+  display: block;
+  font-weight: bold;
 }

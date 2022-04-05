@@ -194,6 +194,11 @@ const ProductDetail = () => {
                 onClick={craftProduct}
                 className={styles.ProductDetailSubmitButton}
               />
+              <Button
+                label="Add item to checklist"
+                
+                className={styles.ProductChecklistButton}
+              />
             </div>
           </div>
         </div>
