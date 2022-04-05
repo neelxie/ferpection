@@ -1,4 +1,5 @@
-import React, { useEffect, useState, FC } from "react";
+import { useEffect, useState } from "react";
+import React, { FC } from "react";
 import ProductItem from "../../components/ProductItem";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
@@ -66,7 +67,7 @@ const ProductListing: FC<ProductListingProps> = ({ products }) => {
 
     function filterByCraftable() {
       let craftableProducts = stateProducts?.filter(
-        (product) => product?.materials?.length > 1
+        (product) => product?.materials?.length > 0
       );
       return craftableProducts;
     }

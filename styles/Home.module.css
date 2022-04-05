@@ -54,6 +54,12 @@
   justify-content: space-between;
 }
 
+.ProductDetailDiv {
+  display: grid;
+  width: -webkit-fill-available;
+  gap: 1rem;
+}
+
 .Heading {
   font-size: 20px;
   font-weight: 600;
@@ -68,7 +74,8 @@
   background-color: #ffffff;
   border-radius: 5px;
   display: flex;
-  padding: 1.5rem 1rem;
+  padding: 2rem;
+  gap: 2rem;
 }
 
 .ProductName {
@@ -95,7 +102,6 @@
 
 .Quantity {
   border: 1px solid #bbb9b9;
-  /* padding: .7rem; */
   border-radius: 3px;
   width: 30px;
   height: 30px;
@@ -108,6 +114,16 @@
   border: 1px solid #24878e;
   padding: 8px 30px;
   font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+}
+
+.ProductDetailSubmitButton {
+  border: 1px solid #24878e;
+  padding: 10px 80px;
+  font-size: 18px;
   border-radius: 4px;
   cursor: pointer;
   background: transparent;
@@ -172,4 +188,63 @@
   background: #ece6bd;
   color: #f89000;
   font-weight: bold;
+}
+
+.CraftButton {
+  place-self: flex-end;
+}
+
+.CraftStatusButtonDiv {
+  display: grid;
+  align-items: flex-start;
+  justify-content: end;
+  width: -webkit-fill-available;
+}
+
+.CraftStatusButton {
+  border: none;
+  padding: 8px 30px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #92dde0;
+  color: #24878e;
+  display: block;
+  font-weight: bold;
+}
+
+.UnCraftableStatusButton {
+  border: none;
+  padding: 8px 30px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #ece6bd;
+  color: #f89000;
+  font-weight: bold;
+}
+
+.MaterialsGrid {
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.MaterialsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 1rem;
+}
+
+.ThumbnailImage {
+  width: 50px;
+  height: 50px;
+}
+.MaterialContainer {
+  display: flex;
+  align-items: center;
+}
+
+.ThumbnailDetails {
+  width: -webkit-fill-available;
 }
