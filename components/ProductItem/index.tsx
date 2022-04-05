@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Button from "../../components/Button";
 import styles from "../../styles/Home.module.css";
 
 interface Material {
@@ -20,11 +21,21 @@ interface ProductItemProps {
 const ProductItem: NextPage<ProductItemProps> = ({ product }) => {
   return (
     <div className={styles.ProductCard}>
-      <img
-        className={styles.ProductImage}
-        src={product.imageURL}
-        alt={product.name}
-      />
+      <div className={styles.ProductImageDiv}>
+        <Button
+          label={product.materials.length > 0 ? "Craftable" : "Uncraftable"}
+          className={
+            product.materials.length > 0
+              ? `${styles.CraftableButton}`
+              : `${styles.UnCraftableButton}`
+          }
+        />
+        <img
+          className={styles.ProductImage}
+          src={product.imageURL}
+          alt={product.name}
+        />
+      </div>
       <div className={styles.productDetails}>
         <div>{product.name}</div>
         <div className={styles.FlexContainer}>

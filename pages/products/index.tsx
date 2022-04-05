@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import React, { FC } from "react";
+import React, { useEffect, useState, FC } from "react";
 import ProductItem from "../../components/ProductItem";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
+import CheckButton from "../../components/CheckButton";
 
 type Material = {
   productID: number;
@@ -21,17 +21,61 @@ interface ProductListingProps {
 }
 
 function addQuantity(productArray: ProductListingProps[]) {
-  // since quantity is not given, I want max quantity to be 10
-  // and minimum to be 2. Then randomly add them to the product items
+  // since quantity is not given, I want max quantity to be 9
+  // and minimum to be 0. Then randomly add them to the product items
   for (let product of productArray) {
-    let quantity: Number = Math.floor(Math.random() * 10) + 2 + 1;
+    let quantity: Number = Math.floor(Math.random() * 9) + 0 + 1;
     Object.assign(product, { quantity: quantity });
   }
   return productArray;
 }
 
+function mapArray(productArray: ProductListingProps[]) {
+  return productArray.map((product) => (
+    <Link href={"/products/" + product.id} key={product.id}>
+      <a className={styles.single}>
+        <ProductItem product={product} />
+      </a>
+    </Link>
+  ));
+}
+
 const ProductListing: FC<ProductListingProps> = ({ products }) => {
   const [stateProducts, setStateProducts] = useState([]);
+  const [owned, setOwned] = useState(false);
+  const [notOwned, setNotOwned] = useState(false);
+  const [craftable, setCraftable] = useState(false);
+  const [ownedArray, setOwnedArray] = useState([]);
+  const [notOwnedArray, setNotOwnedArray] = useState([]);
+  const [craftableArray, setCraftableArray] = useState([]);
+
+  useEffect(() => {
+    function filterByOwned() {
+      let ownedProducts = stateProducts?.filter(
+        (product) => product?.quantity !== 0
+      );
+      return ownedProducts;
+    }
+
+    function filterByNotOwned() {
+      let notOwnedProducts = stateProducts?.filter(
+        (product) => product?.quantity == 0
+      );
+      return notOwnedProducts;
+    }
+
+    function filterByCraftable() {
+      let craftableProducts = stateProducts?.filter(
+        (product) => product?.materials?.length > 1
+      );
+      return craftableProducts;
+    }
+    if (stateProducts.length > 1) {
+      setCraftableArray(filterByCraftable());
+      setNotOwnedArray(filterByNotOwned());
+      setOwnedArray(filterByOwned());
+    }
+  }, [stateProducts]);
 
   useEffect(() => {
     let savedProducts: [];
@@ -49,16 +93,46 @@ const ProductListing: FC<ProductListingProps> = ({ products }) => {
     }
   }, [products]);
 
+  let renderList = () => {
+    if (owned) {
+      return mapArray(ownedArray);
+    } else if (notOwned) {
+      return mapArray(notOwnedArray);
+    } else if (craftable) {
+      return mapArray(craftableArray);
+    } else {
+      return mapArray(stateProducts);
+    }
+  };
+
   return (
-    <div className={styles.ProductsContainer} id="products">
-      {stateProducts.map((product) => (
-        <Link href={"/products/" + product.id} key={product.id}>
-          <a className={styles.single}>
-            <ProductItem product={product} />
-          </a>
-        </Link>
-      ))}
-    </div>
+    <>
+      <div className={styles.ProductsFilter}>
+        <div className={styles.ProductsFilterContainer}>
+          <div>Filter By:</div>
+          <div className={styles.FilterButtons}>
+            <CheckButton
+              label="Owned"
+              className={styles.CheckButton}
+              onClick={() => setOwned((prevOwned) => !prevOwned)}
+            />
+            <CheckButton
+              label="Not Owned"
+              className={styles.CheckButton}
+              onClick={() => setNotOwned((prevNotOwned) => !prevNotOwned)}
+            />
+            <CheckButton
+              label="Craftable"
+              className={styles.CheckButton}
+              onClick={() => setCraftable((prevCraftable) => !prevCraftable)}
+            />
+          </div>
+        </div>
+      </div>
+      <div className={styles.ProductsContainer} id="products">
+        {renderList()}
+      </div>
+    </>
   );
 };
 

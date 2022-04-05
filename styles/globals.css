@@ -15,9 +15,3 @@ a {
 * {
   box-sizing: border-box;
 }
-
-img {
-  width: 300px;
-  place-self: center;
-  height: -webkit-fill-available;
-}
