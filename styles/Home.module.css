@@ -265,3 +265,32 @@
   display: block;
   font-weight: bold;
 }
+
+.checklistResetButton {
+  border: 1px solid #24878e;
+  padding: 6px 22px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+}
+
+.checklist{
+  display: grid;
+  gap: 1rem;
+  padding: 3rem 5rem 0 2rem;
+}
+
+.checklistHeading{
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.checklistTitle{
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+}

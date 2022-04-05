@@ -4,11 +4,23 @@ import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 import Button from "../../components/Button";
 
+interface Material{
+  productID: number;
+  count: number;
+};
+
+interface Product {
+  name: string;
+  id: number;
+  imageURL: string;
+  materials: Material[];
+  quantity?: number;
+};
+
 const ProductDetail = () => {
-  const [product, setProduct] = useState("");
-  const [count, setCount] = useState(product?.quantity || 0);
-  const [allProducts, setAllProducts] = useState([]);
-  const [materialsList, setMaterialsList] = useState([]);
+  const [product, setProduct] = useState<Product>({} as Product);
+  const [count, setCount] = useState<number>(product?.quantity || 0);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const router = useRouter();
   const { productId } = router.query;
 
@@ -32,7 +44,7 @@ const ProductDetail = () => {
     setCount((prevCount) => prevCount - 1);
   };
 
-  const listOfMaterials = (product) => {
+  const listOfMaterials = (product: Product) => {
     let materials = [];
     if (product.materials?.length > 0) {
       for (let material of product.materials) {
@@ -60,7 +72,7 @@ const ProductDetail = () => {
     // if no, alert the user that they don't have enough materials
     if (product.materials.length > 0) {
       for (let material of product.materials) {
-        let materialCount = getMaterialCount(allProducts, material.productID);
+        let materialCount: number = getMaterialCount(allProducts, material.productID);
         if (materialCount < material.count) {
           alert("You don't have enough materials to craft this product");
           return;
@@ -69,35 +81,52 @@ const ProductDetail = () => {
           // add the product to the user's inventory
           // subtract the product's cost from the material's product quantity
           // alert the user that they have crafted the product
-          let newMaterialCount = materialCount - material.count;
-          let newQuantityProductCount = getProductCount(allProducts, material.productID);
+          let newMaterialCount: number = materialCount - material.count;
+          let newQuantityProductCount = getProductCount(
+            allProducts,
+            material.productID
+          );
           let newQuantityProduct = {
             ...getProduct(allProducts, material.productID),
           };
-          newQuantityProduct.quantity = newQuantityProductCount - material.count;
+          newQuantityProduct.quantity =
+            newQuantityProductCount - material.count;
           let newProduct = { ...product };
           newProduct.quantity += 1;
           setProduct(newProduct);
-          let modifiedProductsArray = mergeArrayModifiedProduct(allProducts, newQuantityProduct);
-          modifiedProductsArray = mergeArrayModifiedProduct(modifiedProductsArray, newProduct);
+          let modifiedProductsArray = mergeArrayModifiedProduct(
+            allProducts,
+            newQuantityProduct
+          );
+          modifiedProductsArray = mergeArrayModifiedProduct(
+            modifiedProductsArray,
+            newProduct
+          );
           setAllProducts([...modifiedProductsArray]);
-          localStorage.setItem("products", JSON.stringify(modifiedProductsArray));
+          localStorage.setItem(
+            "products",
+            JSON.stringify(modifiedProductsArray)
+          );
         }
       }
     }
   }
 
-  const mergeArrayModifiedProduct = (arr, modifiedProduct) => arr && arr.map(item => item.id === modifiedProduct.id ? modifiedProduct : item);
+  const mergeArrayModifiedProduct = (arr: Product[], modifiedProduct: Product) =>
+    arr &&
+    arr.map((item) =>
+      item.id === modifiedProduct.id ? modifiedProduct : item
+    );
 
-  function getProduct(allProducts, productId){
+  function getProduct(allProducts: Product[], productId: number) {
     // Get the product from the allProducts array
     // based on the productId
     return allProducts.find((product) => product.id == productId);
   }
 
-  function getProductCount(products, productId) {
+  function getProductCount(products: Product[], productId: number) {
     // get the product count from the user's inventory
-    let productCount = 0;
+    let productCount: number = 0;
     for (let product of products) {
       if (product.id == productId) {
         productCount = product.quantity;
@@ -106,14 +135,14 @@ const ProductDetail = () => {
     return productCount;
   }
 
-  function getMaterialCount(allProducts, productId) {
+  function getMaterialCount(allProducts: Product[], productId: number) {
     return allProducts?.find((product) => product.id === productId).quantity;
   }
-  function getProductName(allProducts, productId) {
+  function getProductName(allProducts: Product[], productId: number) {
     return allProducts?.find((product) => product.id === productId).name;
   }
 
-  function getProductImage(allProducts, productId) {
+  function getProductImage(allProducts: Product[], productId: number) {
     return allProducts?.find((product) => product.id === productId).imageURL;
   }
   const productMaterials = listOfMaterials(product);
@@ -196,14 +225,21 @@ const ProductDetail = () => {
               />
               <Button
                 label="Add item to checklist"
-                
                 className={styles.ProductChecklistButton}
               />
             </div>
           </div>
         </div>
       </div>
-      <div className={styles.checklist}></div>
+      <>
+        <div className={styles.checklist}>
+          <div className={styles.checklistHeading}>
+            <div className={styles.checklistTitle}>Items checklist</div>
+            <Button label="Reset" className={styles.checklistResetButton} />
+          </div>
+          <div></div>
+        </div>
+      </>
     </div>
   );
 };

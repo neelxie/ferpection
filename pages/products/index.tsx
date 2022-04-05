@@ -15,7 +15,7 @@ interface Product {
   id: number;
   imageURL: string;
   materials: Material[];
-  Quantity?: number;
+  quantity?: number;
 };
 
 interface ProductListingProps {
