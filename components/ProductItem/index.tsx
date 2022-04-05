@@ -21,12 +21,16 @@ const ProductItem: NextPage<ProductItemProps> = ({ product }) => {
   return (
     <div className={styles.ProductCard}>
       <img
-        className={styles.productImage}
+        className={styles.ProductImage}
         src={product.imageURL}
         alt={product.name}
       />
       <div className={styles.productDetails}>
-        <div className={styles.productName}>{product.name}</div>
+        <div>{product.name}</div>
+        <div className={styles.FlexContainer}>
+          <div>{`${product.quantity}`}</div>
+          <div className={styles.BlackText}>in Stock</div>
+        </div>
       </div>
     </div>
   );

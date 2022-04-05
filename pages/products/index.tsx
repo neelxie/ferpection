@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import React, { FC } from "react";
-import ProductItem from "./ProductItem";
+import ProductItem from "../../components/ProductItem";
 import styles from "../../styles/Home.module.css";
+import Link from "next/link";
 
 type Material = {
   productID: number;
@@ -31,7 +32,6 @@ function addQuantity(productArray: ProductListingProps[]) {
 
 const ProductListing: FC<ProductListingProps> = ({ products }) => {
   const [stateProducts, setStateProducts] = useState([]);
-  console.log(stateProducts);
 
   useEffect(() => {
     let savedProducts: [];
@@ -39,9 +39,10 @@ const ProductListing: FC<ProductListingProps> = ({ products }) => {
 
     if (savedProducts.length < 1) {
       const newProductArray = addQuantity(products);
+
       localStorage.setItem("products", JSON.stringify(newProductArray));
       savedProducts = JSON.parse(localStorage.getItem("products") || "[]");
-      
+
       setStateProducts(savedProducts);
     } else {
       setStateProducts(savedProducts);
@@ -51,7 +52,11 @@ const ProductListing: FC<ProductListingProps> = ({ products }) => {
   return (
     <div className={styles.ProductsContainer} id="products">
       {stateProducts.map((product) => (
-        <ProductItem product={product} key={product.id} />
+        <Link href={"/products/" + product.id} key={product.id}>
+          <a className={styles.single}>
+            <ProductItem product={product} />
+          </a>
+        </Link>
       ))}
     </div>
   );

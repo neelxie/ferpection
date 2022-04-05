@@ -23,6 +23,12 @@
   grid-gap: 1rem;
 }
 
+.ProductImage {
+  width: 300px;
+  place-self: center;
+  height: -webkit-fill-available;
+}
+
 .ProductCard {
   border: 1px solid #bbb9b9;
   border-radius: 5px;
@@ -30,13 +36,83 @@
   grid-template-rows: 80% 20%;
 }
 
+.Icons {
+  width: 25px;
+  height: 25px;
+}
+
 .productDetails {
   background-color: #ffffff;
   padding: 1rem;
   font-weight: 500;
+  display: flex;
+  justify-content: space-between;
 }
 
 .Heading {
   font-size: 20px;
   font-weight: 600;
+}
+
+.ProductContainer {
+  padding: 1rem 1rem 2rem 3rem;
+  background-color: #f3f8fb;
+}
+
+.ProductItem {
+  background-color: #ffffff;
+  border-radius: 5px;
+  display: flex;
+  padding: 1.5rem 1rem;
+}
+
+.ProductName {
+  font-size: 24px;
+  padding: 0.5rem 0 1rem;
+}
+
+.ProductQuantity {
+  font-weight: bold;
+}
+
+.ProductForm {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  align-items: center;
+}
+
+.ProductFormQuantity {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.Quantity {
+  border: 1px solid #bbb9b9;
+  border-radius: 3px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  border: 1px solid #24878e;
+  padding: 8px 30px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+}
+
+.BlackText {
+  color: #000000;
+}
+
+.FlexContainer {
+  display: flex;
+  gap: 0.2rem;
 }
