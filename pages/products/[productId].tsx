@@ -3,19 +3,20 @@ import { useRouter } from "next/router";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 import Button from "../../components/Button";
+import Checklist from "../../components/Checklist";
 
-interface Material{
+interface Material {
   productID: number;
   count: number;
-};
+}
 
 interface Product {
   name: string;
   id: number;
   imageURL: string;
   materials: Material[];
-  quantity?: number;
-};
+  quantity: number;
+}
 
 const ProductDetail = () => {
   const [product, setProduct] = useState<Product>({} as Product);
@@ -37,6 +38,15 @@ const ProductDetail = () => {
   // Create handleIncrement event handler
   const handleIncrement = () => {
     setCount((prevCount) => prevCount + 1);
+  };
+
+  // save new count to localStorage
+  const handleSave = () => {
+    const newProduct = { ...product, quantity: count };
+    const newProducts = allProducts.map((product) =>
+      product.id === newProduct.id ? newProduct : product
+    );
+    localStorage.setItem("products", JSON.stringify(newProducts));
   };
 
   //Create handleDecrement event handler
@@ -72,7 +82,10 @@ const ProductDetail = () => {
     // if no, alert the user that they don't have enough materials
     if (product.materials.length > 0) {
       for (let material of product.materials) {
-        let materialCount: number = getMaterialCount(allProducts, material.productID);
+        let materialCount: number = getMaterialCount(
+          allProducts,
+          material.productID
+        );
         if (materialCount < material.count) {
           alert("You don't have enough materials to craft this product");
           return;
@@ -82,7 +95,7 @@ const ProductDetail = () => {
           // subtract the product's cost from the material's product quantity
           // alert the user that they have crafted the product
           let newMaterialCount: number = materialCount - material.count;
-          let newQuantityProductCount = getProductCount(
+          let newQuantityProductCount: number = getProductCount(
             allProducts,
             material.productID
           );
@@ -91,10 +104,10 @@ const ProductDetail = () => {
           };
           newQuantityProduct.quantity =
             newQuantityProductCount - material.count;
-          let newProduct = { ...product };
+          let newProduct: Product = { ...product };
           newProduct.quantity += 1;
           setProduct(newProduct);
-          let modifiedProductsArray = mergeArrayModifiedProduct(
+          let modifiedProductsArray: Product[] = mergeArrayModifiedProduct(
             allProducts,
             newQuantityProduct
           );
@@ -112,7 +125,10 @@ const ProductDetail = () => {
     }
   }
 
-  const mergeArrayModifiedProduct = (arr: Product[], modifiedProduct: Product) =>
+  const mergeArrayModifiedProduct = (
+    arr: Product[],
+    modifiedProduct: Product
+  ) =>
     arr &&
     arr.map((item) =>
       item.id === modifiedProduct.id ? modifiedProduct : item
@@ -144,6 +160,19 @@ const ProductDetail = () => {
 
   function getProductImage(allProducts: Product[], productId: number) {
     return allProducts?.find((product) => product.id === productId).imageURL;
+  }
+
+  function addItemToChecklist(product: Product) {
+    let newChecklist: Product[] = JSON.parse(
+      localStorage.getItem("checklist") || "[]"
+    );
+
+    if (product.materials.length <= 0) {
+      newChecklist.push(product);
+      localStorage.setItem("checklist", JSON.stringify(newChecklist));
+    } else {
+      alert("You can't add a craftable product to the checklist");
+    }
   }
   const productMaterials = listOfMaterials(product);
 
@@ -190,7 +219,11 @@ const ProductDetail = () => {
                     </div>
                   </div>
                   <div className={styles.ProductFormButton}>
-                    <Button label="Update" className={styles.button} />
+                    <Button
+                      label="Update"
+                      className={styles.button}
+                      onClick={() => handleSave()}
+                    />
                   </div>
                 </div>
               </div>
@@ -225,6 +258,7 @@ const ProductDetail = () => {
               />
               <Button
                 label="Add item to checklist"
+                onClick={() => addItemToChecklist(product)}
                 className={styles.ProductChecklistButton}
               />
             </div>
@@ -233,11 +267,7 @@ const ProductDetail = () => {
       </div>
       <>
         <div className={styles.checklist}>
-          <div className={styles.checklistHeading}>
-            <div className={styles.checklistTitle}>Items checklist</div>
-            <Button label="Reset" className={styles.checklistResetButton} />
-          </div>
-          <div></div>
+          <Checklist />
         </div>
       </>
     </div>
