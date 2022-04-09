@@ -1,18 +1,7 @@
 import type { NextPage } from "next";
 import Button from "../../components/Button";
 import styles from "../../styles/Home.module.css";
-
-interface Material {
-  productID: number;
-  count: number;
-}
-
-interface Product {
-  name: string;
-  id: number;
-  imageURL: string;
-  materials: Material[];
-}
+import Product from "../../types";
 
 interface ProductItemProps {
   product: Product;

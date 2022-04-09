@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 import ProductListing from "./products";
 import { GetServerSideProps } from "next";
 import Checklist from "../components/Checklist";
+import React, { useEffect } from "react";
 
 type Product = {
   name: string;
@@ -21,6 +22,14 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ products }) => {
+  const [checklistItems, setChecklistItems] = React.useState<Product[]>([]);
+
+  useEffect(() => {
+    const products: Product[] = JSON.parse(
+      localStorage.getItem("checklist") || "[]"
+    );
+    setChecklistItems(products);
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.mainSection}>
@@ -30,7 +39,7 @@ const Home: NextPage<Props> = ({ products }) => {
         </div>
       </div>
       <div className={styles.checklist}>
-        <Checklist />
+        <Checklist checklistItems={checklistItems}/>
       </div>
     </div>
   );

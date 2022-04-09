@@ -4,20 +4,7 @@ import ProductItem from "../../components/ProductItem";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 import CheckButton from "../../components/CheckButton";
-
-interface Material{
-  productID: number;
-  count: number;
-};
-
-interface Product {
-  name: string;
-  id: number;
-  imageURL: string;
-  materials: Material[];
-  quantity?: number;
-};
-
+import Product from "../../types";
 interface ProductListingProps {
   products: Product[];
 }

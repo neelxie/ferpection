@@ -4,31 +4,22 @@ import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 import Button from "../../components/Button";
 import Checklist from "../../components/Checklist";
-
-interface Material {
-  productID: number;
-  count: number;
-}
-
-interface Product {
-  name: string;
-  id: number;
-  imageURL: string;
-  materials: Material[];
-  quantity: number;
-}
+import Product from "../../types";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState<Product>({} as Product);
   const [count, setCount] = useState<number>(product?.quantity || 0);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [checklistItems, setChecklistItems] = useState<Product[]>([]);
   const router = useRouter();
   const { productId } = router.query;
 
   useEffect(() => {
     const products = JSON.parse(localStorage.getItem("products") || "[]");
+    const checklistItems = JSON.parse(localStorage.getItem("checklist") || "[]");
     setProduct(products.find((product) => product.id == productId));
     setAllProducts(products);
+    setChecklistItems(checklistItems);
   }, [productId]);
 
   useEffect(() => {
@@ -122,6 +113,8 @@ const ProductDetail = () => {
           );
         }
       }
+    } else {
+      alert("You can not craft this item");
     }
   }
 
@@ -168,7 +161,15 @@ const ProductDetail = () => {
     );
 
     if (product.materials.length <= 0) {
+      // if item is already in the list update the list
+      if (newChecklist.find((item) => item.id === product.id)) {
+        newChecklist = mergeArrayModifiedProduct(
+          newChecklist,
+          product
+        );
+      } else {
       newChecklist.push(product);
+      }
       localStorage.setItem("checklist", JSON.stringify(newChecklist));
     } else {
       alert("You can't add a craftable product to the checklist");
@@ -267,7 +268,7 @@ const ProductDetail = () => {
       </div>
       <>
         <div className={styles.checklist}>
-          <Checklist />
+          <Checklist checklistItems={checklistItems}/>
         </div>
       </>
     </div>
