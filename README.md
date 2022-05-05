@@ -1,14 +1,7 @@
-# Frontend Developer Technical Test
+# Frontend Developer
 
-Using this project as a base, write an application to manage an inventory. There are products, filters, an iten checklist, and interactions between all three.
+Using this project as a base, an application to manage an inventory. There are products, filters, an iten checklist, and interactions between all three.
 
-## Exercise
-
-Go through the following steps to complete the exercise. Try to be close to the expected interfaces (visually and functionally). You can make decisions (visual or technical); if you do, we’ll ask you to explain **why**.
-
-To review this exercise, we’ll look at: the interfaces, your code, and your Git history.
-
-*It does not need to be perfect but should represent your ability. If you feel stuck, send us the link to your repository. Don’t waste your time working for free on a problem you might not be able to solve.*
 
 Good luck!
 
